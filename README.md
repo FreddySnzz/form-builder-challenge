@@ -1,135 +1,91 @@
-# Turborepo starter
+# 📝 Projeto de Formulários Dinâmicos
 
-This Turborepo starter is maintained by the Turborepo core team.
+Este projeto é uma aplicação fullstack construída com **Next.js**, **TailwindCSS**, **Shadcn/UI**, **Supabase** e **SQLite**, permitindo a criação de formulários dinâmicos com perguntas condicionais, múltiplas opções de resposta e visualização das respostas dos usuários.
 
-## Using this example
+## 🚀 Funcionalidades
 
-Run the following command:
+- Criação e edição de formulários
+- Perguntas com tipos variados: texto, número, múltipla escolha, única escolha, sim/não
+- Condicionalidade entre perguntas (exibição baseada em respostas anteriores)
+- Interface responsiva e moderna com Shadcn/UI
+- Integração com Supabase para persistência dos dados
 
-```sh
-npx create-turbo@latest
+---
+
+## ✅ Pré-requisitos
+
+Antes de começar, verifique se você tem os seguintes requisitos instalados:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/) (v18 ou superior recomendado)
+- [npm](https://www.npmjs.com/) (ou [Yarn](https://yarnpkg.com/))
+
+> **Importante:** Você também precisará de uma instância do [Supabase](https://supabase.com/) configurada com as tabelas esperadas. Se você ainda não tem, veja a seção `🧩 Supabase`.
+
+---
+
+## 📥 Clonando o repositório
+
+```bash
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
+cd nome-do-repositorio
 ```
 
-## What's inside?
+## 📦 Instalando as dependências
+Com npm:
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+npm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Ou com Yarn:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+yarn
 ```
 
-### Develop
+## ⚙️ Configurando o ambiente
+Crie um arquivo .env na pasta web do projeto com as seguintes variáveis (sendo ./apps/web):
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://nchhcwqpbrgyqbckboro.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jaGhjd3FwYnJneXFiY2tib3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MDcyNjMsImV4cCI6MjA2OTk4MzI2M30.qWdyCvmHCZS-QRqLxbO_IwpLi4MwBpPy2hg11gTVmp0
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+## 🧪 Rodando o projeto localmente
+```bash
+npm run dev
 ```
 
-### Remote Caching
+A aplicação estará disponível em: http://localhost:3000
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## 🏁 Comando rápido
+Se quiser pular tudo e rodar direto, após clonar:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
+cd nome-do-repositorio
+cp .env.example .env  # ou crie manualmente
+npm install
+npm run dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🧑‍💻 Tecnologias Utilizadas
+- Next.js
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- TailwindCSS
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+- Shadcn/UI
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+- React Icons
 
-## Useful Links
+- Supabase
 
-Learn more about the power of Turborepo:
+- TypeScript
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## 🤝 Contribuição
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou pull request.
+
+## 📄 Licença
+Este projeto está sob a licença MIT.
