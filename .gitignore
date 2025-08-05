@@ -2,6 +2,10 @@
 
 # Dependencies
 node_modules
+**/node_modules/
+**/build/
+**/dist/
+**/.next/
 .pnp
 .pnp.js
 

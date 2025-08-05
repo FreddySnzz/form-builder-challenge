@@ -1,5 +1,5 @@
 {
-  "name": "turborepo",
+  "name": "form-builder-challenge",
   "private": true,
   "scripts": {
     "build": "turbo run build",
