@@ -20,7 +20,7 @@ Antes de começar, verifique se você tem os seguintes requisitos instalados:
 - [Node.js](https://nodejs.org/) (v18 ou superior recomendado)
 - [npm](https://www.npmjs.com/) (ou [Yarn](https://yarnpkg.com/))
 
-> **Importante:** Você também precisará de uma instância do [Supabase](https://supabase.com/) configurada com as tabelas esperadas. Se você ainda não tem, veja a seção `🧩 Supabase`.
+> **Importante:** Você também precisará de uma instância do [Supabase](https://supabase.com/) configurada com as tabelas esperadas.
 
 ---
 
