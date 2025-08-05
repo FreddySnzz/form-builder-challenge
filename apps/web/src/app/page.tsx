@@ -59,7 +59,11 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return <p className="p-6 text-muted-foreground">Carregando formulários...</p>;
+    return (
+      <div className="flex justify-center items-center w-full h-screen">
+        <p className="p-6 italic">Carregando formulários...</p>
+      </div>
+    )
   }
 
   return (
@@ -86,7 +90,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="flex gap-2 flex-wrap mt-2 items-center justify-center">
                 <Link href={`/form/${form.id}`}>
-                  <Button variant="secondary" size="sm">
+                  <Button variant="secondary" size="sm" className='hover:bg-gray-200'>
                     <FiEye className="mr-2" />
                     Visualizar
                   </Button>

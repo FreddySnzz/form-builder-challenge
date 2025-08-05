@@ -3,8 +3,12 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
-import OpcaoEditor from './OpcaoEditor';
+import { FiTrash } from 'react-icons/fi';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import OpcaoEditor from './OpcaoEditor';
 
 const TIPOS = [
   'sim_nao',
@@ -13,7 +17,7 @@ const TIPOS = [
   'texto_livre',
   'inteiro',
   'float',
-]
+];
 
 export default function PerguntaEditor({
   idFormulario,
@@ -56,11 +60,7 @@ export default function PerguntaEditor({
     }
   };
 
-  const atualizarPergunta = async (
-    id: string, 
-    campo: string, 
-    valor: any
-  ) => {
+  const atualizarPergunta = async (id: string, campo: string, valor: any) => {
     const atualizadas = perguntas.map((p) => (p.id === id ? { ...p, [campo]: valor } : p));
     setPerguntas(atualizadas);
     onPerguntasChange?.(atualizadas);
@@ -75,47 +75,58 @@ export default function PerguntaEditor({
   };
 
   return (
-    <div className="mt-6">
+    <div className="space-y-6">
       {perguntas.map((p) => (
-        <div key={p.id} className="border rounded p-4 mb-4 relative">
-          <input
-            className="w-full mb-2 border px-2 py-1"
-            value={p.titulo}
-            onChange={(e) => atualizarPergunta(p.id, 'titulo', e.target.value)}
-          />
-          <select
-            className="w-full mb-2 border px-2 py-1"
-            value={p.tipo_pergunta}
-            onChange={(e) => atualizarPergunta(p.id, 'tipo_pergunta', e.target.value)}
-          >
-            {TIPOS.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
+        <Card key={p.id} className='border-0 shadow-white'>
+          <CardContent className="space-y-4">
+            <Input
+              value={p.titulo}
+              onChange={(e) => atualizarPergunta(p.id, 'titulo', e.target.value)}
+              placeholder="Título da pergunta"
+            />
 
-          {['multipla_escolha', 'unica_escolha', 'sim_nao'].includes(p.tipo_pergunta) && (
-            <OpcaoEditor idPergunta={p.id} opcoes={p.opcoes_respostas} />
-          )}
-
-          <div className="flex justify-end mt-2">
-            <Button
-              onClick={() => removerPergunta(p.id)}
-              className="bg-red-500 hover:bg-red-700 text-sm text-white px-4 py-2 rounded"
+            <Select
+              value={p.tipo_pergunta}
+              onValueChange={(value) => atualizarPergunta(p.id, 'tipo_pergunta', value)}
             >
-              Excluir pergunta 
-            </Button>
-          </div>
-        </div>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Tipo da pergunta" />
+              </SelectTrigger>
+              <SelectContent>
+                {TIPOS.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {['multipla_escolha', 'unica_escolha', 'sim_nao'].includes(p.tipo_pergunta) && (
+              <OpcaoEditor idPergunta={p.id} opcoes={p.opcoes_respostas} />
+            )}
+
+            <div className="flex justify-end">
+              <Button
+                variant="destructive"
+                onClick={() => removerPergunta(p.id)}
+                className="flex items-center gap-2"
+              >
+                <FiTrash />
+                Excluir pergunta
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       ))}
 
-      <Button
-        onClick={adicionarPergunta}
-        className="bg-green-600 text-white px-4 py-2 mt-4 rounded"
-      >
-        + Adicionar Pergunta
-      </Button>
+      <div className="flex justify-center">
+        <Button 
+          onClick={adicionarPergunta} 
+          className="bg-green-600 hover:bg-green-700"
+        >
+          + Adicionar Pergunta
+        </Button>
+      </div>
     </div>
   );
 }

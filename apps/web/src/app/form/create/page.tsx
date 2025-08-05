@@ -2,10 +2,13 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Input } from "@/components/ui/input"
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import HomeButton from '@/components/template/HomeButton';
 
-export default function Home() {
+export default function CreateFormPage() {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
 
@@ -15,30 +18,42 @@ export default function Home() {
       .insert({ titulo, descricao })
       .select()
       .single();
+
     if (error) return alert(error.message);
-    window.location.href = `/form/${data.id}/edit`;
+
+    window.location.href = `/`;
   };
 
   return (
-    <main className="p-6">
-      <h1 className="text-xl font-bold mb-4">Criar Formulário</h1>
-      <Input
-        type="text"
-        value={titulo}
-        onChange={(e) => setTitulo(e.target.value)}
-        placeholder="Título"
-        className="border p-2 mb-2 w-full"
-      />
-      <Input
-        type="text"
-        value={descricao}
-        onChange={(e) => setDescricao(e.target.value)}
-        placeholder="Descrição"
-        className="border p-2 w-full"
-      />
-      <Button onClick={criarFormulario} className="bg-blue-600 text-white px-4 py-2 mt-4">
-        Criar
-      </Button>
+    <main className="p-6 max-w-xl mx-auto">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-2xl">
+            Criar Novo Formulário
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Input
+            type="text"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            placeholder="Título do formulário"
+          />
+          <Textarea
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder="Descrição do formulário"
+          />
+          <Button
+            onClick={criarFormulario}
+            className="w-full bg-gray-600 hover:bg-gray-700"
+            disabled={!titulo.trim()}
+          >
+            Criar Formulário
+          </Button>
+          <HomeButton className='w-full'>Voltar para Página Inicial</HomeButton>
+        </CardContent>
+      </Card>
     </main>
   );
 }

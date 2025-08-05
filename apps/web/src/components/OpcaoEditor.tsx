@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { FiPlus } from 'react-icons/fi';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function OpcaoEditor({
   idPergunta,
@@ -14,7 +18,9 @@ export default function OpcaoEditor({
   const [resposta, setResposta] = useState('');
 
   const adicionarOpcao = async () => {
-    const { data } = await supabase
+    if (!resposta.trim()) return;
+
+    const { data, error } = await supabase
       .from('opcoes_respostas')
       .insert({
         id_pergunta: idPergunta,
@@ -23,31 +29,40 @@ export default function OpcaoEditor({
       })
       .select()
       .single();
-    if (data) {
-      window.location.reload();
-    }
+
+    if (error) return alert('Erro ao adicionar opção: ' + error.message);
+
+    if (data) window.location.reload();
   };
 
   return (
-    <div className="mt-2">
-      <h4 className="font-semibold mb-2">Opções:</h4>
-      <ul>
-        {opcoes.map((o) => (
-          <li key={o.id} className="mb-1">{o.resposta}</li>
-        ))}
-      </ul>
-      <input
-        className="border px-2 py-1 w-full mt-2"
-        value={resposta}
-        onChange={(e) => setResposta(e.target.value)}
-        placeholder="Nova opção"
-      />
-      <Button
-        className="bg-blue-500 text-white px-3 py-1 mt-2"
-        onClick={adicionarOpcao}
-      >
-        + Adicionar Opção
-      </Button>
-    </div>
+    <Card className="mt-4">
+      <CardHeader>
+        <CardTitle>Opções da Pergunta</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <ScrollArea className="max-h-40 pr-2">
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            {opcoes.map((o) => (
+              <li key={o.id}>• {o.resposta}</li>
+            ))}
+          </ul>
+        </ScrollArea>
+
+        <Input
+          value={resposta}
+          onChange={(e) => setResposta(e.target.value)}
+          placeholder="Nova opção de resposta"
+        />
+
+        <Button
+          onClick={adicionarOpcao}
+          className="flex items-center gap-2"
+        >
+          <FiPlus />
+          Adicionar Opção
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
