@@ -53,12 +53,12 @@ export default function EditFormPage() {
         />
       )}
 
-      <button
+      <Button
         onClick={salvarFormulario}
         className="mt-6 bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded"
       >
         💾 Salvar e Voltar
-      </button>
+      </Button>
     </div>
   );
 }

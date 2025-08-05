@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
 
 type Condicionalidade = {
   id?: string;
@@ -129,13 +130,12 @@ export default function CondicionalidadeEditor({
           </select>
         </div>
 
-        <button
-          type="button"
+        <Button
           className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
           onClick={salvarCondicionalidade}
         >
           Adicionar condicionalidade
-        </button>
+        </Button>
       </div>
     </div>
   );

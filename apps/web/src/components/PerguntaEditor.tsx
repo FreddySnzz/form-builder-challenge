@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import OpcaoEditor from './OpcaoEditor';
 import { v4 as uuidv4 } from 'uuid';
+import OpcaoEditor from './OpcaoEditor';
+import { Button } from '@/components/ui/button';
 
 const TIPOS = [
   'sim_nao',
@@ -12,7 +13,7 @@ const TIPOS = [
   'texto_livre',
   'inteiro',
   'float',
-];
+]
 
 export default function PerguntaEditor({
   idFormulario,
@@ -55,11 +56,15 @@ export default function PerguntaEditor({
     }
   };
 
-  const atualizarPergunta = async (id: string, campo: string, valor: any) => {
-    await supabase.from('pergunta').update({ [campo]: valor }).eq('id', id);
+  const atualizarPergunta = async (
+    id: string, 
+    campo: string, 
+    valor: any
+  ) => {
     const atualizadas = perguntas.map((p) => (p.id === id ? { ...p, [campo]: valor } : p));
     setPerguntas(atualizadas);
     onPerguntasChange?.(atualizadas);
+    await supabase.from('pergunta').update({ [campo]: valor }).eq('id', id);
   };
 
   const removerPergunta = async (id: string) => {
@@ -73,13 +78,6 @@ export default function PerguntaEditor({
     <div className="mt-6">
       {perguntas.map((p) => (
         <div key={p.id} className="border rounded p-4 mb-4 relative">
-          <button
-            onClick={() => removerPergunta(p.id)}
-            className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm"
-          >
-            ✖
-          </button>
-
           <input
             className="w-full mb-2 border px-2 py-1"
             value={p.titulo}
@@ -100,15 +98,24 @@ export default function PerguntaEditor({
           {['multipla_escolha', 'unica_escolha', 'sim_nao'].includes(p.tipo_pergunta) && (
             <OpcaoEditor idPergunta={p.id} opcoes={p.opcoes_respostas} />
           )}
+
+          <div className="flex justify-end mt-2">
+            <Button
+              onClick={() => removerPergunta(p.id)}
+              className="bg-red-500 hover:bg-red-700 text-sm text-white px-4 py-2 rounded"
+            >
+              Excluir pergunta 
+            </Button>
+          </div>
         </div>
       ))}
 
-      <button
+      <Button
         onClick={adicionarPergunta}
         className="bg-green-600 text-white px-4 py-2 mt-4 rounded"
       >
         + Adicionar Pergunta
-      </button>
+      </Button>
     </div>
   );
 }

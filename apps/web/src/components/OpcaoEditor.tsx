@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
 
 export default function OpcaoEditor({
   idPergunta,
@@ -41,12 +42,12 @@ export default function OpcaoEditor({
         onChange={(e) => setResposta(e.target.value)}
         placeholder="Nova opção"
       />
-      <button
+      <Button
         className="bg-blue-500 text-white px-3 py-1 mt-2"
         onClick={adicionarOpcao}
       >
         + Adicionar Opção
-      </button>
+      </Button>
     </div>
   );
 }

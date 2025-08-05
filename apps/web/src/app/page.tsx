@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 type Formulario = {
   id: string;
@@ -42,12 +43,12 @@ export default function HomePage() {
     <main className="p-6 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">📋 Formulários Disponíveis</h1>
-        <button
+        <Button
           onClick={() => router.push(`/form/create`)}
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
         >
           + Novo Formulário
-        </button>
+        </Button>
       </div>
 
       {formularios.length === 0 ? (
@@ -83,7 +84,7 @@ export default function HomePage() {
                 >
                   ✏️ Editar
                 </Link>
-                <button
+                <Button
                   onClick={async () => {
                     const confirm = window.confirm(`Tem certeza que deseja excluir "${form.titulo}"?`);
                     if (!confirm) return;
@@ -98,7 +99,7 @@ export default function HomePage() {
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
                 >
                   🗑️ Excluir
-                </button>
+                </Button>
               </div>
             </li>
           ))}

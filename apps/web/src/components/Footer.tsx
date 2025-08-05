@@ -1,6 +1,6 @@
 'use client';
 
-interface FooterProps {
+interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
 }
 

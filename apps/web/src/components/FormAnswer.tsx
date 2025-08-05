@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function FormAnswer({
   perguntas,
@@ -23,7 +25,7 @@ export default function FormAnswer({
   const isPerguntaVisivel = (perguntaId: string): boolean => {
     const regras = condicionalidades.filter((c) => c.id_pergunta_exibida === perguntaId);
 
-    if (regras.length === 0) return true; // não tem condicionalidade
+    if (regras.length === 0) return true;
 
     return regras.some((regra) => respostas[regra.id_pergunta_condicional] === regra.id_opcao_ativa);
   };
@@ -39,7 +41,7 @@ export default function FormAnswer({
 
     const respostasArray = perguntas.map((p) => {
       const valor = respostas[p.id];
-      if (!isPerguntaVisivel(p.id)) return null; // ignora não visíveis
+      if (!isPerguntaVisivel(p.id)) return null;
 
       if (p.tipo_pergunta === 'texto_livre' || p.tipo_pergunta === 'sim_nao') {
         return {
@@ -188,13 +190,21 @@ export default function FormAnswer({
         );
       })}
 
-      <button
-        type="button"
+      <div className="gap-4 flex justify-between">
+        <Link
+        href={`/`}
+        className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2.5 rounded text-sm"
+      >
+        Voltar
+      </Link>
+
+      <Button
         onClick={salvarRespostas}
-        className="bg-green-600 text-white px-4 py-2"
+        className="bg-green-600 text-white px-4 py-2 rounded text-sm"
       >
         Enviar Respostas
-      </button>
+      </Button>
+      </div>
     </form>
   );
 }
