@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
 import PerguntaEditor from '@/components/PerguntaEditor';
 import CondicionalidadeEditor from '@/components/CondicionalidadeEditor';
 

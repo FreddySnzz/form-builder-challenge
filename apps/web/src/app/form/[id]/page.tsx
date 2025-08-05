@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import HomeButton from '@/components/template/HomeButton';
 
 export default function PreviewFormPage() {
   const { id } = useParams();
@@ -93,13 +94,8 @@ export default function PreviewFormPage() {
           
         </div>
       )}
-      <div className='mt-8'>
-        <Link
-          href={`/`}
-          className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm"
-        >
-          🏠 Página Inicial
-        </Link>
+      <div className='flex justify-end mt-8'>
+        <HomeButton />
       </div>
     </div>
   );

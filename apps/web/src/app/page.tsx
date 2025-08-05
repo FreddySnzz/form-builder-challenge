@@ -2,9 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  FiEye,
+  FiEdit2,
+  FiTrash,
+  FiPlus,
+  FiClipboard,
+  FiSend,
+} from 'react-icons/fi';
 
 type Formulario = {
   id: string;
@@ -37,73 +46,76 @@ export default function HomePage() {
     fetchFormularios();
   }, []);
 
-  if (loading) return <p className="p-6">Carregando formulários...</p>;
+  const excluirFormulario = async (id: string, titulo: string) => {
+    const confirmed = window.confirm(`Tem certeza que deseja excluir "${titulo}"?`);
+    if (!confirmed) return;
+
+    const { error } = await supabase.from('formulario').delete().eq('id', id);
+    if (!error) {
+      setFormularios((prev) => prev.filter((f) => f.id !== id));
+    } else {
+      alert('Erro ao excluir formulário.');
+    }
+  };
+
+  if (loading) {
+    return <p className="p-6 text-muted-foreground">Carregando formulários...</p>;
+  }
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">📋 Formulários Disponíveis</h1>
-        <Button
-          onClick={() => router.push(`/form/create`)}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-        >
-          + Novo Formulário
+    <main className="p-6 max-w-5xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          <FiClipboard className="text-green-600" />
+          Formulários Disponíveis
+        </h1>
+        <Button onClick={() => router.push('/form/create')}>
+          <FiPlus className="mr-2" />
+          Novo Formulário
         </Button>
       </div>
 
       {formularios.length === 0 ? (
-        <p className="text-gray-600">Nenhum formulário encontrado.</p>
+        <p className="text-gray-500 italic">Nenhum formulário encontrado.</p>
       ) : (
-        <ul className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {formularios.map((form) => (
-            <li
-              key={form.id}
-              className="border rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div className="mb-4 sm:mb-0">
-                <h2 className="text-xl font-semibold">{form.titulo}</h2>
-                <p className="text-gray-600">{form.descricao}</p>
-              </div>
-
-              <div className="flex gap-2 flex-wrap">
-                <Link
-                  href={`/form/${form.id}`}
-                  className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded text-sm"
-                >
-                  👁️ Visualizar
+            <Card key={form.id} className="flex flex-col justify-between">
+              <CardHeader>
+                <CardTitle>{form.titulo}</CardTitle>
+                <p className="text-sm text-muted-foreground">{form.descricao}</p>
+              </CardHeader>
+              <CardContent className="flex gap-2 flex-wrap mt-2">
+                <Link href={`/form/${form.id}`}>
+                  <Button variant="secondary" size="sm">
+                    <FiEye className="mr-2" />
+                    Visualizar
+                  </Button>
                 </Link>
-                <Link
-                  href={`/form/${form.id}/answer`}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm"
-                >
-                  📝 Responder
+                <Link href={`/form/${form.id}/answer`}>
+                  <Button variant="default" size="sm">
+                    <FiSend className="mr-2" />
+                    Responder
+                  </Button>
                 </Link>
-                <Link
-                  href={`/form/${form.id}/edit`}
-                  className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded text-sm"
-                >
-                  ✏️ Editar
+                <Link href={`/form/${form.id}/edit`}>
+                  <Button variant="outline" size="sm">
+                    <FiEdit2 className="mr-2" />
+                    Editar
+                  </Button>
                 </Link>
                 <Button
-                  onClick={async () => {
-                    const confirm = window.confirm(`Tem certeza que deseja excluir "${form.titulo}"?`);
-                    if (!confirm) return;
-
-                    const { error } = await supabase.from('formulario').delete().eq('id', form.id);
-                    if (!error) {
-                      setFormularios((prev) => prev.filter((f) => f.id !== form.id));
-                    } else {
-                      alert('Erro ao excluir formulário.');
-                    }
-                  }}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => excluirFormulario(form.id, form.titulo)}
                 >
-                  🗑️ Excluir
+                  <FiTrash className="mr-2" />
+                  Excluir
                 </Button>
-              </div>
-            </li>
+              </CardContent>
+            </Card>
           ))}
-        </ul>
+        </div>
       )}
     </main>
   );
