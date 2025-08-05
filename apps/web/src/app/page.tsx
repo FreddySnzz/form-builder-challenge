@@ -63,10 +63,9 @@ export default function HomePage() {
   }
 
   return (
-    <main className="p-6 max-w-5xl mx-auto space-y-6">
+    <main className="p-8 max-w-full mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <FiClipboard className="text-green-600" />
+        <h1 className="text-xl sm:text-3xl font-bold flex items-center gap-2">
           Formulários Disponíveis
         </h1>
         <Button onClick={() => router.push('/form/create')}>
@@ -78,14 +77,14 @@ export default function HomePage() {
       {formularios.length === 0 ? (
         <p className="text-gray-500 italic">Nenhum formulário encontrado.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {formularios.map((form) => (
             <Card key={form.id} className="flex flex-col justify-between">
               <CardHeader>
                 <CardTitle>{form.titulo}</CardTitle>
                 <p className="text-sm text-muted-foreground">{form.descricao}</p>
               </CardHeader>
-              <CardContent className="flex gap-2 flex-wrap mt-2">
+              <CardContent className="flex gap-2 flex-wrap mt-2 items-center justify-center">
                 <Link href={`/form/${form.id}`}>
                   <Button variant="secondary" size="sm">
                     <FiEye className="mr-2" />
